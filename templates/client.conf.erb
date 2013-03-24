@@ -1,0 +1,17 @@
+client
+remote <%= @server %>
+pkcs12 certs/<%= @server %>/<%= @fqdn %>.p12
+comp-lzo yes
+dev tap
+proto udp
+<% if @tls_remote -%>
+tls-remote "<%= @tls_remote %>"
+<% end -%>
+<% if @ta_key -%>
+tls-auth certs/<%= @server %>/ta.key 1
+<% end -%>
+nobind
+auth-nocache
+script-security 2
+persist-key
+persist-tun
