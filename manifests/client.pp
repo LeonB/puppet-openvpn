@@ -12,6 +12,7 @@ define openvpn::client(
 		mode    => 640,
 		content => template("openvpn/client.conf.erb"),
 		require => Class['openvpn'],
+		notify  => Class['openvpn::service'],
 	}
 
 	file { "/etc/openvpn/certs/${server}/":
@@ -21,6 +22,7 @@ define openvpn::client(
 		group   => root,
 		mode    => 640,
 		require => Class['openvpn'],
+		notify  => Class['openvpn::service'],
 	}
 
 	file { "/etc/openvpn/certs/${server}/${fqdn}.p12":
@@ -30,6 +32,7 @@ define openvpn::client(
 		mode    => 640,
 		source  => $p12,
 		require => Class['openvpn'],
+		notify  => Class['openvpn::service'],
 	}
 
 	if $ta_key {
@@ -40,6 +43,7 @@ define openvpn::client(
 			mode    => 640,
 			source  => $ta_key,
 			require => Class['openvpn'],
+			notify  => Class['openvpn::service'],
 		}
 	}
 
