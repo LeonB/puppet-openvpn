@@ -1,4 +1,10 @@
-client
+# MANAGED BY PUPPET!
+# modules/openvpn/templates/client.conf.erb
+# Changes WILL BE overwritten! Any permanent changes must be checked
+# into git.
+
+# tls-client ignores server_bridge setting
+tls-client
 remote <%= @server %>
 pkcs12 certs/<%= @server %>/<%= @fqdn %>.p12
 comp-lzo yes
@@ -13,7 +19,12 @@ tls-auth certs/<%= @server %>/ta.key 1
 nobind
 auth-nocache
 script-security 2
+keepalive 5 20
 persist-key
 persist-tun
-up /etc/openvpn/update-resolv-conf
-down /etc/openvpn/update-resolv-conf
+<% if @hwaddress -%>
+up "/etc/openvpn/client_up hwaddress <%= @hwaddress %>"
+<% else -%>
+up "/etc/openvpn/client_up"
+<% end -%>
+down "/etc/openvpn/client_down"

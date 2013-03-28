@@ -4,7 +4,7 @@ class openvpn::service {
 		ensure     => running,
 		hasstatus  => true,
 		hasrestart => true,
-		enable     => true,
+		enable     => $openvpn::enable,
 		require    => Class['openvpn::package'],
 	}
 }

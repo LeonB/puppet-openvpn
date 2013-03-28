@@ -1,0 +1,7 @@
+#!/bin/bash
+# tap0 1500 1574   init
+
+interface=$1
+
+kill `cat /run/dhclient.$interface.pid`
+/etc/openvpn/update-resolv-conf $*

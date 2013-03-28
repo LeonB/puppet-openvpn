@@ -1,0 +1,19 @@
+#!/bin/bash
+# tap0 1500 1574   init
+
+if [ "$1" == "hwaddress" ]; then
+    hwaddress=$2
+    interface=$3
+    set -- "${@:3}" # remove first two parameters
+    # shift; shift;
+else
+    interface=$1
+fi
+
+if [ "$hwaddress" ]; then
+    /sbin/ifconfig $interface hw ether $hwaddress
+fi
+
+ifconfig $interface up
+dhclient -1 -v -pf /run/dhclient.$interface.pid -lf /var/lib/dhcp/dhclient.$interface.leases $interface&
+/etc/openvpn/update-resolv-conf $*
