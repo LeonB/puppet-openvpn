@@ -3,8 +3,8 @@
 # Changes WILL BE overwritten! Any permanent changes must be checked
 # into git.
 
-# tls-client ignores server_bridge setting
-tls-client
+# This directive is equivalent to: pull, tls-client
+client
 remote <%= @server %>
 pkcs12 certs/<%= @server %>/<%= @fqdn %>.p12
 comp-lzo yes
