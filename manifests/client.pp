@@ -4,6 +4,7 @@ define openvpn::client(
 	$ta_key     = undef,
 	$tls_remote = undef,
 	$hwaddress  = undef,
+	$autostart  = false,
 ) {
 
 	file { "/etc/openvpn/${server}.conf":
@@ -16,7 +17,7 @@ define openvpn::client(
 		notify  => Class['openvpn::service'],
 	}
 
-	file { "/etc/openvpn/certs/${server}/": 
+	file { "/etc/openvpn/certs/${server}/":
 		ensure  => $openvpn::ensure ? { present => directory, default => $openvpn::ensure },
 		force   => true,
 		owner   => root,
@@ -45,6 +46,14 @@ define openvpn::client(
 			source  => $ta_key,
 			require => Class['openvpn'],
 			notify  => Class['openvpn::service'],
+		}
+	}
+
+	if $autostart {
+		concat::fragment { "openvpn.default.autostart.${server}":
+			content => "${server} ",
+			target  => '/etc/default/openvpn',
+			order   => 10,
 		}
 	}
 
