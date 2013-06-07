@@ -14,12 +14,12 @@
 #
 class openvpn::params {
 
-	### Application related parameters
+  ### Application related parameters
 
-	$package_name = $::operatingsystem ? {
-		default => 'openvpn'
-	}
+  $package_name = $::operatingsystem ? {
+    default => 'openvpn'
+  }
 
-	$enabled = true
+  $enabled = true
 
 }
